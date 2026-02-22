@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /confessions/{confession} {
+      // Anyone can create a confession
+      allow create: if true;
+      
+      // Anyone can read confessions
+      allow read: if true;
+      
+      // Only the admin can delete confessions
+      // Replace 'YOUR_ADMIN_EMAIL' with your actual admin email address
+      allow delete: if request.auth != null && request.auth.token.email == 'YOUR_ADMIN_EMAIL';
+    }
+  }
+}
